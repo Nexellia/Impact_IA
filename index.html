@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA & Énergie — Impacts Mondiaux | Module de Formation</title>
+<style>
+:root {
+  --primary: #1e40af;
+  --primary-light: #3b82f6;
+  --secondary: #0891b2;
+  --accent: #f59e0b;
+  --danger: #ef4444;
+  --success: #10b981;
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #060d1f 0%, #0f2557 45%, #0a4f75 100%);
+  color: white; padding: 72px 24px 56px; text-align: center; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(59,130,246,0.12) 0%, transparent 55%);
+  animation: heroPulse 5s ease-in-out infinite;
+}
+@keyframes heroPulse { 0%,100% {transform:scale(1);opacity:1;} 50% {transform:scale(1.15);opacity:0.7;} }
+.hero-badge {
+  display: inline-block; background: rgba(96,165,250,0.2); border: 1px solid rgba(96,165,250,0.4);
+  color: #93c5fd; padding: 5px 18px; border-radius: 20px; font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px; position: relative; z-index:1;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 900; line-height: 1.15;
+  margin-bottom: 18px; position: relative; z-index:1;
+}
+.hero h1 .highlight { color: #60a5fa; }
+.hero .sub { font-size: 1.1rem; color: #cbd5e1; max-width: 700px; margin: 0 auto 52px; position: relative; z-index:1; }
+.hero-stats { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; position: relative; z-index:1; }
+.hero-stat {
+  background: rgba(255,255,255,0.07); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 20px;
+  padding: 24px 28px; min-width: 170px; text-align: center;
+  transition: transform 0.2s;
+}
+.hero-stat:hover { transform: translateY(-4px); }
+.hero-stat-val { font-size: 2.4rem; font-weight: 900; line-height: 1; }
+.hero-stat-val.blue  { color: #60a5fa; }
+.hero-stat-val.amber { color: #fbbf24; }
+.hero-stat-val.green { color: #34d399; }
+.hero-stat-val.red   { color: #f87171; }
+.hero-stat-lbl { font-size: 0.82rem; color: #94a3b8; margin-top: 6px; }
+
+/* NAV */
+.sticky-nav {
+  background: var(--surface); border-bottom: 2px solid var(--border);
+  display: flex; overflow-x: auto; gap: 0; justify-content: center;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.sticky-nav::-webkit-scrollbar { height: 0; }
+.nav-tab {
+  padding: 15px 22px; font-size: 0.87rem; font-weight: 600;
+  color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent;
+  transition: all 0.2s; white-space: nowrap; flex-shrink: 0;
+  text-decoration: none; display: flex; align-items: center;
+}
+.nav-tab:hover { color: var(--primary); background: #f8fafc; }
+.nav-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+/* LAYOUT */
+.page-section { padding: 64px 24px; max-width: 1100px; margin: 0 auto; scroll-margin-top: 56px; }
+.section-header { text-align: center; margin-bottom: 48px; }
+.badge-label {
+  display: inline-block; padding: 5px 16px; border-radius: 20px;
+  font-size: 0.77rem; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.badge-blue   { background: #eff6ff; color: #1d4ed8; }
+.badge-green  { background: #f0fdf4; color: #047857; }
+.badge-amber  { background: #fffbeb; color: #b45309; }
+.badge-red    { background: #fef2f2; color: #b91c1c; }
+.badge-teal   { background: #ecfeff; color: #0e7490; }
+.section-title { font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 800; margin-bottom: 12px; }
+.section-sub { font-size: 1rem; color: var(--text-muted); max-width: 680px; margin: 0 auto; }
+
+/* CARDS */
+.card { background: var(--surface); border-radius: 18px; padding: 28px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.card-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.card-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.card-grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+@media (max-width: 860px) { .card-grid-2 { grid-template-columns: 1fr; } .card-grid-3 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .card-grid-3 { grid-template-columns: 1fr; } }
+
+/* KPI */
+.kpi { border-radius: 16px; padding: 22px 24px; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); }
+.kpi-val { font-size: 2.2rem; font-weight: 900; line-height: 1.1; }
+.kpi-lbl { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+.kpi-ctx { font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.kpi.blue  { border-left: 5px solid #3b82f6; } .kpi.blue .kpi-val  { color: #1d4ed8; }
+.kpi.amber { border-left: 5px solid #f59e0b; } .kpi.amber .kpi-val { color: #b45309; }
+.kpi.red   { border-left: 5px solid #ef4444; } .kpi.red .kpi-val   { color: #b91c1c; }
+.kpi.green { border-left: 5px solid #10b981; } .kpi.green .kpi-val { color: #047857; }
+.kpi.teal  { border-left: 5px solid #0891b2; } .kpi.teal .kpi-val  { color: #0e7490; }
+
+/* ALERT */
+.alert { border-radius: 14px; padding: 18px 22px; display: flex; gap: 14px; align-items: flex-start; margin: 24px 0; }
+.alert.warning { background: #fffbeb; border: 1px solid #fde68a; }
+.alert.info    { background: #eff6ff; border: 1px solid #bfdbfe; }
+.alert.danger  { background: #fef2f2; border: 1px solid #fecaca; }
+.alert-icon { font-size: 1.6rem; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.alert p { font-size: 0.9rem; color: var(--text); }
+.alert p strong { display: block; margin-bottom: 4px; font-size: 0.95rem; }
+
+/* BAR CHART — échelle logarithmique, valeur à droite de la barre */
+.bar-chart { display: flex; flex-direction: column; gap: 14px; }
+.bar-row { display: flex; align-items: center; gap: 14px; }
+.bar-lbl { font-size: 0.83rem; font-weight: 600; min-width: 180px; text-align: right; color: var(--text); }
+.bar-track { flex: 1; background: #f1f5f9; border-radius: 10px; height: 38px; position: relative; }
+.bar-fill {
+  height: 100%; border-radius: 10px;
+  animation: growBar 1.3s cubic-bezier(.16,1,.3,1) forwards;
+  min-width: 4px; width: 0;
+}
+@keyframes growBar { to { width: var(--w); } }
+.bar-val-label {
+  position: absolute; right: -90px; top: 50%; transform: translateY(-50%);
+  font-size: 0.83rem; font-weight: 800; color: var(--text); width: 84px;
+}
+.bar-track-wrap { flex: 1; display: flex; align-items: center; gap: 0; position: relative; padding-right: 90px; }
+.bar-multiplier { font-size: 0.73rem; color: var(--text-muted); margin-left: 6px; white-space: nowrap; }
+@media (max-width: 600px) { .bar-lbl { min-width: 90px; font-size: 0.76rem; } .bar-val-label { right: -70px; width: 64px; font-size: 0.75rem; } }
+
+/* DONUT */
+.donut-wrap { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; justify-content: center; }
+.donut-outer { position: relative; width: 190px; height: 190px; flex-shrink: 0; }
+.donut-outer svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.donut-label { position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
+.donut-label strong { font-size: 2rem; font-weight: 900; color: var(--primary); display: block; }
+.donut-label small { font-size: 0.75rem; color: var(--text-muted); }
+.legend { display: flex; flex-direction: column; gap: 14px; }
+.legend-row { display: flex; align-items: center; gap: 12px; }
+.legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+.legend-text strong { display: block; font-size: 0.95rem; }
+.legend-text span { font-size: 0.82rem; color: var(--text-muted); }
+
+/* CALCULATOR */
+.calc-wrap { max-width: 800px; margin: 0 auto; }
+.calc-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px; }
+.calc-btn {
+  padding: 11px 18px; border-radius: 12px; border: 2px solid var(--border);
+  background: var(--surface); cursor: pointer; font-size: 0.88rem; font-weight: 600;
+  color: var(--text-muted); transition: all 0.2s;
+}
+.calc-btn:hover { border-color: var(--primary); color: var(--primary); }
+.calc-btn.active { border-color: var(--primary); background: var(--primary); color: white; }
+.calc-result { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border-radius: 18px; padding: 28px; border: 1px solid #bfdbfe; }
+.calc-main { text-align: center; margin-bottom: 24px; }
+.calc-energy { font-size: 3.5rem; font-weight: 900; color: var(--primary); line-height: 1; }
+.calc-energy-lbl { font-size: 0.95rem; color: var(--text-muted); margin-top: 6px; }
+.calc-comps { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 14px; }
+.calc-comp {
+  background: white; border-radius: 14px; padding: 16px 14px;
+  border: 1px solid var(--border); text-align: center;
+}
+.calc-comp-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+.calc-comp-val { font-size: 1.5rem; font-weight: 900; color: var(--text); }
+.calc-comp-lbl { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+.calc-source { text-align: center; margin-top: 16px; font-size: 0.78rem; color: var(--text-muted); }
+
+/* PROJECTION SVG CHART */
+.proj-chart-wrap { background: var(--surface); border-radius: 18px; padding: 28px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.proj-chart-wrap svg { width: 100%; height: auto; }
+.proj-legend { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-top: 16px; }
+.proj-leg-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text); }
+.proj-leg-line { width: 28px; height: 4px; border-radius: 2px; }
+
+/* SECTOR TABS */
+.sector-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+.sector-btn {
+  padding: 11px 22px; border-radius: 12px; border: 2px solid var(--border);
+  background: var(--surface); cursor: pointer; font-weight: 700; font-size: 0.9rem;
+  color: var(--text-muted); transition: all 0.2s;
+}
+.sector-btn.active { background: #047857; border-color: #047857; color: white; }
+.sector-panel { display: none; }
+.sector-panel.active { display: block; }
+.benefit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; margin-bottom: 20px; }
+.benefit-item { background: #f0fdf4; border-radius: 14px; padding: 20px; border-left: 5px solid #10b981; }
+.benefit-val { font-size: 1.9rem; font-weight: 900; color: #047857; }
+.benefit-lbl { font-size: 0.88rem; font-weight: 600; margin-top: 4px; }
+.benefit-detail { font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; }
+
+/* IMPACT GRID */
+.impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.impact-card { background: var(--surface); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.impact-icon { font-size: 2.6rem; margin-bottom: 14px; display: block; }
+.impact-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+.impact-val { font-size: 1.7rem; font-weight: 900; color: var(--danger); margin: 6px 0; }
+.impact-card p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.5; }
+
+/* ACCORDION */
+.accordion { display: flex; flex-direction: column; gap: 12px; }
+.acc-item { background: var(--surface); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; transition: box-shadow 0.2s; }
+.acc-item.open { box-shadow: var(--shadow); }
+.acc-head {
+  padding: 18px 22px; cursor: pointer; display: flex; justify-content: space-between;
+  align-items: center; font-weight: 700; font-size: 0.95rem; transition: background 0.2s;
+  user-select: none;
+}
+.acc-head:hover { background: #f8fafc; }
+.acc-arrow { font-size: 1rem; transition: transform 0.3s; color: var(--text-muted); }
+.acc-item.open .acc-arrow { transform: rotate(180deg); }
+.acc-body { display: none; padding: 0 22px 22px; font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+.acc-item.open .acc-body { display: block; }
+.tip-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.tip-list li {
+  padding: 10px 16px; background: #f8fafc; border-radius: 8px;
+  border-left: 3px solid var(--success); font-size: 0.88rem; color: var(--text);
+}
+
+/* PARADOX */
+.paradox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 700px) { .paradox-grid { grid-template-columns: 1fr; } }
+.paradox-neg { background: #fef2f2; border: 1px solid #fecaca; border-radius: 18px; padding: 28px; }
+.paradox-pos { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 18px; padding: 28px; }
+.paradox-neg h3 { color: #b91c1c; font-size: 1.15rem; font-weight: 800; margin-bottom: 16px; }
+.paradox-pos h3 { color: #047857; font-size: 1.15rem; font-weight: 800; margin-bottom: 16px; }
+.p-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.p-list li { font-size: 0.88rem; padding-left: 22px; position: relative; line-height: 1.5; }
+.p-list li::before { content:''; position: absolute; left:0; top:7px; width:9px; height:9px; border-radius: 50%; }
+.paradox-neg .p-list li::before { background: #ef4444; }
+.paradox-pos .p-list li::before { background: #10b981; }
+
+/* SOURCE REF */
+sup.ref { color: var(--primary); font-size: 0.7em; font-weight: 700; }
+sup.ref a { color: var(--primary); text-decoration: none; border-bottom: 1px dotted var(--primary); cursor: pointer; }
+sup.ref a:hover { background: #eff6ff; border-radius: 3px; }
+
+/* SOURCES SECTION */
+.sources-wrap { background: #0a1628; padding: 48px 24px; }
+.sources-inner { max-width: 1100px; margin: 0 auto; }
+.sources-inner h2 { color: white; font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
+.sources-inner .s-sub { color: #64748b; font-size: 0.88rem; margin-bottom: 28px; }
+.sources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.src-item { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+.src-num { color: #60a5fa; font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 4px; }
+.src-item a { color: #93c5fd; text-decoration: none; font-size: 0.82rem; line-height: 1.4; display: block; }
+.src-item a:hover { text-decoration: underline; color: #bfdbfe; }
+.src-item .src-title { color: #cbd5e1; font-size: 0.82rem; margin-bottom: 2px; font-weight: 500; }
+
+/* FOOTER */
+footer { background: #060d1f; color: #475569; text-align: center; padding: 28px; font-size: 0.82rem; border-top: 1px solid #1e293b; }
+footer strong { color: #94a3b8; }
+
+/* TAG */
+.tag {
+  display: inline-block; padding: 3px 10px; border-radius: 8px;
+  font-size: 0.75rem; font-weight: 700; margin-right: 6px; margin-top: 6px;
+}
+.tag.red { background:#fef2f2; color:#b91c1c; }
+.tag.green { background:#f0fdf4; color:#047857; }
+.tag.blue { background:#eff6ff; color:#1d4ed8; }
+.tag.amber { background:#fffbeb; color:#b45309; }
+
+/* DIVIDER */
+.section-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); max-width: 1100px; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ HERO -->
+<header class="hero">
+  <div class="hero-badge">Module de Formation · IA &amp; Environnement</div>
+  <h1>L'Intelligence Artificielle<br><span class="highlight">face au défi énergétique</span></h1>
+  <p class="sub">Comprendre l'empreinte réelle de l'IA, ses impacts sectoriels et les pistes pour une IA durable — chiffres sourcés, visualisations interactives.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-val blue">415 TWh</div>
+      <div class="hero-stat-lbl">Consommation data centers 2024<br>(= 1,5 % électricité mondiale)</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val amber">× 2,3</div>
+      <div class="hero-stat-lbl">Croissance prévue d'ici 2030<br>(→ 945 TWh)</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val green">1,4 Gt CO₂</div>
+      <div class="hero-stat-lbl">Économies possibles d'ici 2035<br>si l'IA optimise l'énergie</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val red">69 %</div>
+      <div class="hero-stat-lbl">Des impacts enviro. de l'IA<br>non liés au CO₂</div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════ NAV -->
+<nav class="sticky-nav" id="mainNav">
+  <a class="nav-tab active" href="#paradoxe" onclick="handleNav(event,'paradoxe')">⚖️ Le Paradoxe</a>
+  <a class="nav-tab" href="#usage" onclick="handleNav(event,'usage')">🖱️ Par Usage</a>
+  <a class="nav-tab" href="#training" onclick="handleNav(event,'training')">⚙️ Training vs Inférence</a>
+  <a class="nav-tab" href="#projections" onclick="handleNav(event,'projections')">📈 Projections 2030</a>
+  <a class="nav-tab" href="#benefices" onclick="handleNav(event,'benefices')">🌱 Bénéfices sectoriels</a>
+  <a class="nav-tab" href="#au-dela" onclick="handleNav(event,'au-dela')">💧 Au-delà du CO₂</a>
+  <a class="nav-tab" href="#solutions" onclick="handleNav(event,'solutions')">✅ Solutions</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 1 : PARADOXE -->
+<section class="page-section" id="paradoxe">
+  <div class="section-header">
+    <div class="badge-label badge-blue">Section 1</div>
+    <h2 class="section-title">Le paradoxe central de l'IA</h2>
+    <p class="section-sub">L'IA est à la fois un problème énergétique majeur <em>et</em> la meilleure solution connue pour optimiser notre consommation d'énergie. Comprendre les deux faces est essentiel.</p>
+  </div>
+
+  <div class="paradox-grid">
+    <div class="paradox-neg">
+      <h3>⚠️ L'IA aggrave la crise énergétique</h3>
+      <ul class="p-list">
+        <li>Les data centers IA consomment <strong>4 à 5 fois plus</strong> qu'un data center classique <sup class="ref"><a href="#sources-list">[S3]</a></sup></li>
+        <li>La consommation mondiale des data centers va <strong>plus que doubler d'ici 2030</strong> (415 → 945 TWh) <sup class="ref" title="[S3] IEA Report">[S3]</sup></li>
+        <li>L'entraînement de GPT-4 a consommé <strong>42,4 GWh</strong> — l'équivalent de 28 500 foyers pendant 14 semaines <sup class="ref"><a href="#sources-list">[S1]</a></sup></li>
+        <li>Générer une <strong>vidéo de 6 secondes</strong> consomme 115 Wh (recharger 2 laptops) <sup class="ref"><a href="#sources-list">[S2]</a></sup></li>
+        <li>Les émissions GPU de fabrication vont être <strong>multipliées par 16</strong> entre 2024 et 2030 <sup class="ref"><a href="#sources-list">[S1]</a></sup></li>
+        <li>D'ici 2030 : 62 % du "budget environnemental" annuel de l'UE pourrait être consommé par l'IA <sup class="ref"><a href="#sources-list">[S2]</a></sup></li>
+      </ul>
+    </div>
+    <div class="paradox-pos">
+      <h3>✅ L'IA accélère la transition énergétique</h3>
+      <ul class="p-list">
+        <li>Économies potentielles de <strong>1,4 milliard de tonnes de CO₂</strong> d'ici 2035 si déployée dans l'énergie <sup class="ref" title="[S10] Allnews / IEA">[S10]</sup></li>
+        <li>Les smart grids IA libèrent <strong>115 à 175 GW</strong> de capacité de transmission sans nouvelle ligne <sup class="ref" title="[S11] EnergyAndAI.pdf">[S11]</sup></li>
+        <li>Les bâtiments intelligents : jusqu'à <strong>-30 %</strong> de consommation énergétique <sup class="ref" title="[S13] Praxedo Smart Grid">[S13]</sup></li>
+        <li>Industrie : économie de <strong>8 exajoules</strong> de demande industrielle d'ici 2035 <sup class="ref" title="[S11] EnergyAndAI.pdf">[S11]</sup></li>
+        <li>L'IA prédit la production solaire/éolienne intermittente → réduit le gaspillage renouvelable <sup class="ref" title="[S11] EnergyAndAI.pdf">[S11]</sup></li>
+        <li>Réduction des pannes réseau de <strong>30 à 50 %</strong> grâce à la maintenance prédictive IA <sup class="ref" title="[S11] EnergyAndAI.pdf">[S11]</sup></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="alert warning" style="margin-top:28px;">
+    <div class="alert-icon">⚡</div>
+    <p><strong>L'effet rebond (paradoxe de Jevons)</strong> : en rendant l'énergie moins chère et les processus plus efficaces, l'IA risque de faire <em>augmenter</em> la consommation globale. Sans encadrement fort, les gains d'efficacité peuvent être annulés par l'explosion des usages.</p>
+  </div>
+</section>
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 2 : USAGE CALCULATOR -->
+<section class="page-section" id="usage">
+  <div class="section-header">
+    <div class="badge-label badge-teal">Section 2</div>
+    <h2 class="section-title">Que consomme réellement l'IA ?</h2>
+    <p class="section-sub">L'énergie consommée varie considérablement selon le type d'usage. Sélectionnez une action pour la comparer à des activités du quotidien.</p>
+  </div>
+
+  <!-- ENERGY BAR CHART — échelle logarithmique pour visibilité -->
+  <div class="card" style="margin-bottom:32px;">
+    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:6px;">Énergie par type de requête IA <sup class="ref"><a href="#sources-list">[S5][S9]</a></sup></h3>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:20px;">Échelle logarithmique (les valeurs réelles s'étalent de 0,3 Wh à 115 Wh). Sources : Epoch AI fév. 2025 + IEA 2024.</p>
+    <div class="bar-chart">
+      <!-- log10(115)=2.06 → 100% | log10(2.9)=0.462 → 38% | log10(0.75)=−0.125 → 15% | log10(0.3)=−0.52 → 5% min -->
+      <div class="bar-row">
+        <div class="bar-lbl">🎬 Vidéo 6 secondes</div>
+        <div class="bar-track-wrap">
+          <div class="bar-track">
+            <div class="bar-fill" style="--w:100%; background: linear-gradient(90deg,#b91c1c,#ef4444);"></div>
+          </div>
+          <div class="bar-val-label" style="color:#b91c1c;"><strong>115 Wh</strong></div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl">🎨 Image générée</div>
+        <div class="bar-track-wrap">
+          <div class="bar-track">
+            <div class="bar-fill" style="--w:38%; background: linear-gradient(90deg,#b45309,#f59e0b);"></div>
+          </div>
+          <div class="bar-val-label" style="color:#b45309;"><strong>2,9 Wh</strong><span class="bar-multiplier">× 10 vs texte</span></div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl">🧠 Raisonnement (o1/o3)</div>
+        <div class="bar-track-wrap">
+          <div class="bar-track">
+            <div class="bar-fill" style="--w:15%; background: linear-gradient(90deg,#0e7490,#0891b2);"></div>
+          </div>
+          <div class="bar-val-label" style="color:#0e7490;"><strong>0,75 Wh</strong><span class="bar-multiplier">× 2,5 vs texte</span></div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl">💬 Texte (GPT-4o / Claude)</div>
+        <div class="bar-track-wrap">
+          <div class="bar-track">
+            <div class="bar-fill" style="--w:5%; background: linear-gradient(90deg,#1d4ed8,#3b82f6);"></div>
+          </div>
+          <div class="bar-val-label" style="color:#1d4ed8;"><strong>0,3 Wh</strong><span class="bar-multiplier">référence</span></div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl">🔍 Google Search (serveur)</div>
+        <div class="bar-track-wrap">
+          <div class="bar-track">
+            <div class="bar-fill" style="--w:5%; background: linear-gradient(90deg,#374151,#6b7280);"></div>
+          </div>
+          <div class="bar-val-label" style="color:#374151;"><strong>≈ 0,3 Wh</strong><span class="bar-multiplier">côté serveur*</span></div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl">📧 Email 100 mots (GPT)</div>
+        <div class="bar-track-wrap">
+          <div class="bar-track">
+            <div class="bar-fill" style="--w:5%; background: linear-gradient(90deg,#7c3aed,#a78bfa);"></div>
+          </div>
+          <div class="bar-val-label" style="color:#7c3aed;"><strong>0,3 Wh</strong><span class="bar-multiplier">+ 500 ml eau</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:18px;padding:12px 16px;background:#fef3c7;border-radius:10px;border-left:4px solid #f59e0b;">
+      <p style="font-size:0.82rem;color:#92400e;"><strong>⚠️ Point de vigilance :</strong> La vidéo générée est <strong>383× plus énergivore</strong> que le texte et <strong>40× plus</strong> qu'une image. L'IA de génération vidéo (Sora, Runway) est le type d'usage avec le plus fort impact marginal.</p>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE CALCULATOR -->
+  <div class="calc-wrap">
+    <div class="calc-actions">
+      <button class="calc-btn active" onclick="setCalc(this,'text')">💬 Texte (0,3 Wh)</button>
+      <button class="calc-btn" onclick="setCalc(this,'reason')">🧠 Raisonnement (0,75 Wh)</button>
+      <button class="calc-btn" onclick="setCalc(this,'image')">🎨 Image (2,9 Wh)</button>
+      <button class="calc-btn" onclick="setCalc(this,'video')">🎬 Vidéo 6s (115 Wh)</button>
+      <button class="calc-btn" onclick="setCalc(this,'email')">📧 Email 100 mots (0,3 Wh + eau)</button>
+    </div>
+    <div class="calc-result" id="calcResult">
+      <div class="calc-main">
+        <div class="calc-energy" id="calcEnergy">0,3 Wh</div>
+        <div class="calc-energy-lbl" id="calcLabel">Énergie pour 1 requête texte standard (GPT-4o / Claude Sonnet / Gemini 2.5)</div>
+      </div>
+      <div class="calc-comps" id="calcComps">
+        <div class="calc-comp"><span class="calc-comp-icon">🔍</span><div class="calc-comp-val">≈ 1</div><div class="calc-comp-lbl">Équiv. Google Search (côté serveur, ~0,3 Wh)*</div></div>
+        <div class="calc-comp"><span class="calc-comp-icon">💡</span><div class="calc-comp-val">1,8 min</div><div class="calc-comp-lbl">Ampoule LED 10W allumée</div></div>
+        <div class="calc-comp"><span class="calc-comp-icon">☕</span><div class="calc-comp-val">1 / 75</div><div class="calc-comp-lbl">D'une tasse de thé (22,5 Wh)</div></div>
+        <div class="calc-comp"><span class="calc-comp-icon">📺</span><div class="calc-comp-val">< 0,1 %</div><div class="calc-comp-lbl">D'1h de streaming HD</div></div>
+      </div>
+      <div style="margin-top:14px;padding:10px 14px;background:#fffbeb;border-radius:10px;border-left:3px solid #f59e0b;font-size:0.78rem;color:#92400e;">
+        <strong>* Note :</strong> La comparaison "= Google" est valide côté serveur (0,3 Wh chacun). Mais elle était le mythe inverse il y a 2 ans : ChatGPT était dit "10× plus gourmand" — calcul faux basé sur une hypothèse de 2 000 tokens alors que la réalité est ~270 tokens (Epoch AI, fév. 2025). Google a publié en août 2025 que Gemini consomme 0,24 Wh/requête. <a href="#sources-list" style="color:#92400e;font-weight:700;">[S5][S16]</a>
+      </div>
+      <div class="calc-source" id="calcSource">Source : Epoch AI, février 2025 <sup class="ref">[S5]</sup></div>
+    </div>
+  </div>
+</section>
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 3 : TRAINING vs INFERENCE -->
+<section class="page-section" id="training">
+  <div class="section-header">
+    <div class="badge-label badge-amber">Section 3</div>
+    <h2 class="section-title">Training vs Inférence</h2>
+    <p class="section-sub">Deux phases radicalement différentes : l'entraînement est intense et ponctuel, l'inférence est continue et cumulativement dominante.</p>
+  </div>
+
+  <div class="card-grid-2" style="margin-bottom:28px;">
+    <!-- DONUT -->
+    <div class="card" style="display:flex;flex-direction:column;justify-content:center;">
+      <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px;text-align:center;">Répartition de la consommation IA totale <sup class="ref" title="[S7] TechTarget + [S8] GetTectonic">[S7][S8]</sup></h3>
+      <div class="donut-wrap">
+        <div class="donut-outer">
+          <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#e2e8f0" stroke-width="20"/>
+            <!-- Inference: 65% = 234° -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#1d4ed8" stroke-width="20"
+              stroke-dasharray="251.2 0" stroke-dashoffset="0"/>
+            <!-- Training: 25% = 90° -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#f59e0b" stroke-width="20"
+              stroke-dasharray="96.6 154.6" stroke-dashoffset="-162.8"/>
+            <!-- Other: 10% -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#10b981" stroke-width="20"
+              stroke-dasharray="0 251.2" stroke-dashoffset="-259.4"/>
+          </svg>
+          <!-- Approximation visuelle avec conic-gradient -->
+          <div style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:50%;background:conic-gradient(#1d4ed8 0% 65%, #f59e0b 65% 90%, #10b981 90% 100%);"></div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:58%;height:58%;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:1;">
+            <strong style="font-size:1.6rem;font-weight:900;color:#1d4ed8;">65%</strong>
+            <small style="font-size:0.7rem;color:var(--text-muted)">Inférence</small>
+          </div>
+        </div>
+        <div class="legend">
+          <div class="legend-row"><div class="legend-dot" style="background:#1d4ed8;"></div><div class="legend-text"><strong>Inférence : 60–70 %</strong><span>Usage quotidien (requêtes)</span></div></div>
+          <div class="legend-row"><div class="legend-dot" style="background:#f59e0b;"></div><div class="legend-text"><strong>Entraînement : 20–30 %</strong><span>Phase d'apprentissage du modèle</span></div></div>
+          <div class="legend-row"><div class="legend-dot" style="background:#10b981;"></div><div class="legend-text"><strong>Autre : ~10 %</strong><span>Déploiement, fine-tuning</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRAINING DETAILS -->
+    <div style="display:flex;flex-direction:column;gap:18px;">
+      <div class="kpi amber">
+        <div class="kpi-val">42,4 GWh</div>
+        <div class="kpi-lbl">Entraînement de GPT-4 (25 000 GPU × 14 semaines)</div>
+        <div class="kpi-ctx">= Consommation électrique quotidienne de 28 500 foyers · Émissions : > 7 138 t CO₂e <sup class="ref">[S1]</sup></div>
+      </div>
+      <div class="kpi red">
+        <div class="kpi-val">310 GWh</div>
+        <div class="kpi-lbl">Entraînement du plus grand modèle actuel (154 MW en crête)</div>
+        <div class="kpi-ctx">7× plus que GPT-4 — la course aux modèles frontière accélère la consommation <sup class="ref">[S1]</sup></div>
+      </div>
+      <div class="kpi teal">
+        <div class="kpi-val">0,3 Wh</div>
+        <div class="kpi-lbl">Une requête texte GPT-4o (inférence)</div>
+        <div class="kpi-ctx">10× moins que les estimations de 2023 — grâce à l'optimisation matérielle. Mais × des milliards de requêtes/jour = 226,8 GWh/an pour ChatGPT seul <sup class="ref">[S5][S9]</sup></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert info">
+    <div class="alert-icon">💡</div>
+    <p><strong>Pourquoi l'inférence domine malgré son faible coût unitaire ?</strong> ChatGPT traite environ 10 millions de requêtes par jour. 0,3 Wh × 10 M requêtes = 3 000 kWh/jour = 1,1 GWh/an pour un seul service — à multiplier par des centaines de modèles déployés dans le monde.</p>
+  </div>
+
+  <!-- MODELES 2025 -->
+  <div class="card" style="margin-top:24px;margin-bottom:0;background:linear-gradient(135deg,#f0f9ff,#ecfdf5);">
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:6px;">⚡ Consommation des modèles frontière en 2025 <sup class="ref"><a href="#sources-list">[S5][S15]</a></sup></h3>
+    <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:18px;">Données Epoch AI fév. 2025 + Hannah Ritchie août 2025. Les performances s'améliorent : les nouveaux modèles font plus avec moins d'énergie.</p>
+    <div class="card-grid-4">
+      <div style="background:white;border-radius:12px;padding:16px;border:1px solid #bfdbfe;border-top:4px solid #3b82f6;">
+        <div style="font-weight:800;font-size:0.9rem;margin-bottom:4px;">GPT-4o (OpenAI)</div>
+        <div style="font-size:1.6rem;font-weight:900;color:#1d4ed8;">0,30 Wh</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);">Par requête texte standard · référence</div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:16px;border:1px solid #bbf7d0;border-top:4px solid #10b981;">
+        <div style="font-weight:800;font-size:0.9rem;margin-bottom:4px;">Gemini 2.5 Pro (Google)</div>
+        <div style="font-size:1.6rem;font-weight:900;color:#047857;">0,24 Wh</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);">~20% plus efficace que GPT-4o · Avril 2025</div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:16px;border:1px solid #fde68a;border-top:4px solid #f59e0b;">
+        <div style="font-weight:800;font-size:0.9rem;margin-bottom:4px;">Claude 3.7 Sonnet (Anthropic)</div>
+        <div style="font-size:1.6rem;font-weight:900;color:#b45309;">~0,30 Wh</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);">Données fragmentaires · performances similaires GPT-4o</div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:16px;border:1px solid #fecaca;border-top:4px solid #ef4444;">
+        <div style="font-weight:800;font-size:0.9rem;margin-bottom:4px;">o1 / o3 — raisonnement (OpenAI)</div>
+        <div style="font-size:1.6rem;font-weight:900;color:#b91c1c;">0,75 Wh</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);">×2,5 vs texte simple · réfléchit avant de répondre</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;padding:12px 16px;background:#fffbeb;border-radius:10px;border-left:4px solid #f59e0b;">
+      <p style="font-size:0.82rem;color:#92400e;"><strong>📌 Tendance 2025 :</strong> Les modèles s'améliorent en efficacité (Gemini 2.5 Flash, Llama 3.3, DeepSeek V3 notamment). Mais la course aux modèles de raisonnement (o3, Gemini 2.5 Thinking, Claude 3.7 Extended Thinking) consomme 2 à 5× plus. L'efficacité progresse, le volume d'usage également — l'empreinte totale continue d'augmenter.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:24px;">
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:18px;">Impact du type de contenu sur l'inférence <sup class="ref">[S5][S2]</sup></h3>
+    <div class="card-grid-4">
+      <div class="kpi blue">
+        <div class="kpi-val">0,3 Wh</div>
+        <div class="kpi-lbl">Texte court (GPT-4o)</div>
+        <div class="kpi-ctx">Référence de base</div>
+      </div>
+      <div class="kpi teal">
+        <div class="kpi-val">40 Wh</div>
+        <div class="kpi-lbl">Analyse 100 000 tokens</div>
+        <div class="kpi-ctx">133× plus que le texte court</div>
+      </div>
+      <div class="kpi amber">
+        <div class="kpi-val">2,9 Wh</div>
+        <div class="kpi-lbl">Image générée</div>
+        <div class="kpi-ctx">60× plus énergivore que le texte</div>
+      </div>
+      <div class="kpi red">
+        <div class="kpi-val">115 Wh</div>
+        <div class="kpi-lbl">Vidéo 6 secondes</div>
+        <div class="kpi-ctx">383× plus que le texte court</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 4 : PROJECTIONS -->
+<section class="page-section" id="projections">
+  <div class="section-header">
+    <div class="badge-label badge-red">Section 4</div>
+    <h2 class="section-title">Projections 2024–2030</h2>
+    <p class="section-sub">L'AIE prévoit plusieurs scénarios selon la vitesse d'adoption de l'IA et les gains d'efficacité matérielle. La croissance est certaine, seule l'ampleur varie.</p>
+  </div>
+
+  <div class="proj-chart-wrap" style="margin-bottom:28px;">
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px;">Consommation électrique mondiale des data centers (TWh) <sup class="ref" title="[S3] IEA Electricity 2024 + [S11] EnergyAndAI.pdf">[S3][S11]</sup></h3>
+    <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;display:block;">
+      <!-- Grid lines -->
+      <defs>
+        <marker id="arrowR" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/>
+        </marker>
+      </defs>
+      <!-- Y-axis labels -->
+      <text x="8" y="258" font-size="10" fill="#94a3b8">0</text>
+      <text x="8" y="203" font-size="10" fill="#94a3b8">300</text>
+      <text x="8" y="148" font-size="10" fill="#94a3b8">600</text>
+      <text x="8" y="93" font-size="10" fill="#94a3b8">900</text>
+      <text x="8" y="38" font-size="10" fill="#94a3b8">1200</text>
+      <!-- Grid -->
+      <line x1="38" y1="255" x2="690" y2="255" stroke="#e2e8f0" stroke-width="1"/>
+      <line x1="38" y1="200" x2="690" y2="200" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="38" y1="145" x2="690" y2="145" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="38" y1="90" x2="690" y2="90" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="38" y1="35" x2="690" y2="35" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,3"/>
+      <!-- X-axis labels: 2024=100, 2025=190, 2026=280, 2027=370, 2028=460, 2029=550, 2030=640 -->
+      <text x="96" y="272" font-size="10" fill="#94a3b8" text-anchor="middle">2024</text>
+      <text x="186" y="272" font-size="10" fill="#94a3b8" text-anchor="middle">2025</text>
+      <text x="276" y="272" font-size="10" fill="#94a3b8" text-anchor="middle">2026</text>
+      <text x="366" y="272" font-size="10" fill="#94a3b8" text-anchor="middle">2027</text>
+      <text x="456" y="272" font-size="10" fill="#94a3b8" text-anchor="middle">2028</text>
+      <text x="546" y="272" font-size="10" fill="#94a3b8" text-anchor="middle">2029</text>
+      <text x="636" y="272" font-size="10" fill="#94a3b8" text-anchor="middle">2030</text>
+      <!-- Y = 255 - (val/1250 * 220) -->
+      <!-- 415 TWh → y = 255 - 72.9 = 182 -->
+      <!-- Scénario Base: 415→945 TWh  | 415→500→570→640→730→830→945 -->
+      <polyline points="96,182 186,167 276,154 366,140 456,125 546,108 636,89"
+        fill="none" stroke="#1d4ed8" stroke-width="3" stroke-linejoin="round"/>
+      <!-- Scénario Lift-Off: 415→1260 TWh | 415→520→640→760→910→1080→1260 -->
+      <polyline points="96,182 186,164 276,143 366,122 456,95 546,65 636,33"
+        fill="none" stroke="#ef4444" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6,3"/>
+      <!-- Scénario Headwinds: 415→670 TWh | 415→460→500→540→580→620→670 -->
+      <polyline points="96,182 186,174 276,167 366,160 456,153 546,147 636,137"
+        fill="none" stroke="#10b981" stroke-width="2" stroke-linejoin="round" stroke-dasharray="3,3"/>
+      <!-- Scénario Efficacité: 415→800 TWh -->
+      <polyline points="96,182 186,172 276,163 366,152 456,141 546,129 636,114"
+        fill="none" stroke="#f59e0b" stroke-width="2" stroke-linejoin="round" stroke-dasharray="8,4"/>
+      <!-- Points -->
+      <circle cx="96" cy="182" r="5" fill="#1d4ed8"/>
+      <text x="96" y="176" font-size="9" fill="#1d4ed8" text-anchor="middle" font-weight="bold">415</text>
+      <circle cx="636" cy="89" r="5" fill="#1d4ed8"/>
+      <text x="636" y="83" font-size="9" fill="#1d4ed8" text-anchor="middle" font-weight="bold">945</text>
+      <circle cx="636" cy="33" r="5" fill="#ef4444"/>
+      <text x="636" y="27" font-size="9" fill="#ef4444" text-anchor="middle" font-weight="bold">1 260</text>
+      <circle cx="636" cy="137" r="5" fill="#10b981"/>
+      <text x="636" y="132" font-size="9" fill="#10b981" text-anchor="middle" font-weight="bold">670</text>
+      <circle cx="636" cy="114" r="5" fill="#f59e0b"/>
+      <text x="636" y="108" font-size="9" fill="#f59e0b" text-anchor="middle" font-weight="bold">800</text>
+    </svg>
+    <div class="proj-legend">
+      <div class="proj-leg-item"><div class="proj-leg-line" style="background:#1d4ed8;"></div> Scénario base (×2,3)</div>
+      <div class="proj-leg-item"><div class="proj-leg-line" style="background:#ef4444;border-top:2px dashed #ef4444;height:0;margin-top:2px;"></div> Lift-Off (forte adoption)</div>
+      <div class="proj-leg-item"><div class="proj-leg-line" style="background:#10b981;border-top:2px dotted #10b981;height:0;margin-top:2px;"></div> Vents contraires (ralentissement)</div>
+      <div class="proj-leg-item"><div class="proj-leg-line" style="background:#f59e0b;"></div> Haute efficacité matérielle</div>
+    </div>
+  </div>
+
+  <div class="card-grid-3">
+    <div class="kpi red">
+      <div class="kpi-val">+15 %/an</div>
+      <div class="kpi-lbl">Croissance annuelle data centers IA</div>
+      <div class="kpi-ctx">4× la croissance mondiale de l'électricité <sup class="ref">[S3]</sup></div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-val">×10</div>
+      <div class="kpi-lbl">Consommation IA × 10 entre 2023 et 2026</div>
+      <div class="kpi-ctx">Anticipé par l'AIE dès 2024 <sup class="ref">[S3]</sup></div>
+    </div>
+    <div class="kpi blue">
+      <div class="kpi-val">+30 %/an</div>
+      <div class="kpi-lbl">Croissance des "serveurs accélérés" IA</div>
+      <div class="kpi-ctx">Représenteront ≈ 50 % de la croissance nette mondiale d'ici 2030 <sup class="ref">[S1][S3]</sup></div>
+    </div>
+  </div>
+
+  <div class="alert danger" style="margin-top:28px;">
+    <div class="alert-icon">🌍</div>
+    <p><strong>Mise en perspective géopolitique</strong> : 945 TWh en 2030, c'est la consommation électrique totale annuelle du Japon (4ème économie mondiale). La localisation des data centers et le mix énergétique local deviennent des enjeux géostratégiques majeurs.</p>
+  </div>
+</section>
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 5 : BENEFICES -->
+<section class="page-section" id="benefices">
+  <div class="section-header">
+    <div class="badge-label badge-green">Section 5</div>
+    <h2 class="section-title">L'IA au service de la transition énergétique</h2>
+    <p class="section-sub">Paradoxalement, l'IA est aussi la technologie la plus prometteuse pour réduire notre empreinte énergétique mondiale. Voici les impacts concrets par secteur.</p>
+  </div>
+
+  <div class="alert info">
+    <div class="alert-icon">📊</div>
+    <p><strong>Chiffre clé :</strong> Si déployée massivement dans le secteur de l'énergie, l'IA pourrait économiser <strong>1,4 milliard de tonnes de CO₂ d'ici 2035</strong> — soit 5 fois les émissions générées par les data centers IA eux-mêmes. <sup class="ref" title="[S10][S11] Allnews + IEA EnergyAndAI">[S10][S11]</sup></p>
+  </div>
+
+  <div class="sector-btns">
+    <button class="sector-btn active" onclick="setSector(this,'grids')">⚡ Smart Grids</button>
+    <button class="sector-btn" onclick="setSector(this,'buildings')">🏢 Bâtiments</button>
+    <button class="sector-btn" onclick="setSector(this,'industry')">🏭 Industrie</button>
+  </div>
+
+  <!-- SMART GRIDS -->
+  <div class="sector-panel active" id="grids">
+    <div class="benefit-grid">
+      <div class="benefit-item">
+        <div class="benefit-val">+175 GW</div>
+        <div class="benefit-lbl">Capacité de transmission libérée</div>
+        <div class="benefit-detail">Sans construire une seule nouvelle ligne, grâce au Dynamic Line Rating (DLR) IA qui mesure en temps réel les conditions météo. <sup class="ref">[S11]</sup></div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-val">-50 %</div>
+        <div class="benefit-lbl">Durée des coupures de courant</div>
+        <div class="benefit-detail">L'IA détecte les anomalies et localise précisément les défauts réseau avant qu'ils ne causent des pannes majeures. <sup class="ref">[S11]</sup></div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-val">-120 Mt CO₂</div>
+        <div class="benefit-lbl">Économies si écrêtement -1 pt</div>
+        <div class="benefit-detail">Réduire de 1% le gaspillage de la production renouvelable (solaire/éolien) évite 14 Mds m³ de gaz et 120 Mt de CO₂ d'ici 2035. <sup class="ref">[S11]</sup></div>
+      </div>
+    </div>
+    <div class="card">
+      <p style="font-size:0.9rem;"><strong>Comment ça marche :</strong> Les réseaux électriques modernes intègrent des milliers de sources de production intermittente (solaire, éolien). L'IA prédit la production, optimise l'équilibrage offre/demande en temps réel, et permet aux lignes de transporter plus d'électricité en toute sécurité selon les conditions météo actuelles — libérant une capacité équivalente à 50 centrales nucléaires, sans travaux.</p>
+    </div>
+  </div>
+
+  <!-- BATIMENTS -->
+  <div class="sector-panel" id="buildings">
+    <div class="benefit-grid">
+      <div class="benefit-item">
+        <div class="benefit-val">-300 TWh</div>
+        <div class="benefit-lbl">Économies bâtiments d'ici 2035</div>
+        <div class="benefit-detail">= 5 % de la consommation mondiale de chauffage/climatisation, ou la production annuelle de l'Australie + Nouvelle-Zélande. <sup class="ref">[S11]</sup></div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-val">-30 %</div>
+        <div class="benefit-lbl">Énergie consommée en opération</div>
+        <div class="benefit-detail">Résultats observés avec des BEMS (Building Energy Management Systems) IA dans des immeubles de bureaux à Singapour et dans les Alpes. <sup class="ref">[S14]</sup></div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-val">-85 %</div>
+        <div class="benefit-lbl">Consommation en conception</div>
+        <div class="benefit-detail">Les outils de conception générative IA optimisent dès la phase architecturale : matériaux, isolation, orientation, éclairage naturel. <sup class="ref">[S11]</sup></div>
+      </div>
+    </div>
+    <div class="card">
+      <p style="font-size:0.9rem;"><strong>Comment ça marche :</strong> Les bâtiments consomment 50% de l'électricité mondiale. Un BEMS IA analyse en continu la météo, l'occupation des locaux, les tarifs d'énergie et les prévisions pour ajuster automatiquement le chauffage, la ventilation et la climatisation. Résultat : -10% en moyenne à -30% dans les cas avancés, sans aucun sacrifier le confort.</p>
+    </div>
+  </div>
+
+  <!-- INDUSTRIE -->
+  <div class="sector-panel" id="industry">
+    <div class="benefit-grid">
+      <div class="benefit-item">
+        <div class="benefit-val">8 EJ</div>
+        <div class="benefit-lbl">Demande industrielle économisée</div>
+        <div class="benefit-detail">D'ici 2035, l'IA pourrait réduire la consommation industrielle de 8 exajoules — plus que la consommation totale du Mexique. <sup class="ref">[S11]</sup></div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-val">-42 %</div>
+        <div class="benefit-val" style="font-size:1.2rem;color:#059669;">d'intensité énergétique</div>
+        <div class="benefit-detail">Siemens, Nvidia et d'autres usines "smart" rapportent des réductions de 25% à 42% grâce à l'optimisation IA des processus. <sup class="ref">[S11]</sup></div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-val">-40 000 t</div>
+        <div class="benefit-lbl">CO₂/an pour une cimenterie</div>
+        <div class="benefit-detail">En réduisant de 5% la proportion de clinker dans le ciment, l'IA évite 40 000 t de CO₂/an par cimenterie standard. <sup class="ref">[S11]</sup></div>
+      </div>
+    </div>
+    <div class="card">
+      <p style="font-size:0.9rem;"><strong>Comment ça marche :</strong> L'industrie est responsable de 45% des émissions CO₂ liées à l'énergie. L'IA intervient via la maintenance prédictive (anticiper les pannes avant qu'elles surviennent), le contrôle qualité temps réel, et l'optimisation holistique des lignes de production (synchronisation des moteurs, gestion des flux thermiques). Dans l'acier : contrôle de la ferraille recyclée → 650 TJ économisés par usine/an.</p>
+    </div>
+  </div>
+</section>
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 6 : AU-DELÀ DU CO2 -->
+<section class="page-section" id="au-dela">
+  <div class="section-header">
+    <div class="badge-label badge-red">Section 6</div>
+    <h2 class="section-title">Au-delà du CO₂ : les impacts invisibles</h2>
+    <p class="section-sub">Le réchauffement climatique ne représente que 31% de l'empreinte totale de l'IA. Les 69% restants sont souvent ignorés et pourtant considérables.</p>
+  </div>
+
+  <div class="alert danger" style="margin-bottom:32px;">
+    <div class="alert-icon">⚠️</div>
+    <p><strong>69% des impacts environnementaux de l'IA sont non climatiques</strong> : eau, minéraux, particules fines, déchets électroniques, eutrophisation. Ces impacts sont structurels et croissent avec chaque nouveau modèle. D'ici 2030, l'IA pourrait consommer à elle seule 62% du "budget environnemental soutenable" annuel de l'UE. <sup class="ref"><a href="#sources-list">[S2]</a></sup></p>
+  </div>
+
+  <div class="impact-grid">
+    <div class="impact-card">
+      <span class="impact-icon">💧</span>
+      <h3>Eau — Refroidissement</h3>
+      <div class="impact-val">500 ml</div>
+      <p>Pour une <strong>session de 20 à 50 requêtes</strong> avec GPT-4 (Shaolei Ren, UC Riverside 2023) <sup class="ref"><a href="#sources-list">[S15]</a></sup> — soit environ 10 à 25 ml par requête individuelle. ⚠️ La figure souvent citée "500 ml par email" est une confusion de périmètre. Un data center IA de 100 MW consomme <strong>2 millions de litres/jour</strong> (= 6 500 foyers). La consommation mondiale passera de 560 Mds L (2023) à <strong>1 200 Mds L d'eau en 2030</strong>.</p>
+      <div style="margin-top:12px;"><span class="tag red">Refroidissement</span><span class="tag amber">Fabrication puces</span></div>
+    </div>
+
+    <div class="impact-card">
+      <span class="impact-icon">⛏️</span>
+      <h3>Minéraux critiques</h3>
+      <div class="impact-val">21,4 %</div>
+      <p>De l'empreinte totale liée à l'épuisement des ressources abiotiques <sup class="ref">[S2]</sup>. D'ici 2030 : <strong>512 kt de cuivre, 75 kt de silicium</strong>. La demande en gallium des data centers pourrait atteindre <strong>11% de l'offre mondiale</strong> — dont 98% raffiné en Chine.</p>
+      <div style="margin-top:12px;"><span class="tag red">Cuivre</span><span class="tag amber">Gallium</span><span class="tag blue">Silicium</span></div>
+    </div>
+
+    <div class="impact-card">
+      <span class="impact-icon">🔧</span>
+      <h3>Fabrication des GPU</h3>
+      <div class="impact-val">×16 d'ici 2030</div>
+      <p>Les émissions CO₂e liées à la fabrication de GPU IA passeront de 1,21 MtCO₂e (2024) à <strong>19,2 MtCO₂e en 2030</strong> <sup class="ref">[S1]</sup>. La fabrication d'un wafer de 3nm requiert 2,3 MWh. Les 25 000 GPU de GPT-4 ont généré <strong>1 329 t CO₂e</strong> à la fabrication seule.</p>
+      <div style="margin-top:12px;"><span class="tag red">Fabrication</span><span class="tag amber">Lithographie</span></div>
+    </div>
+
+    <div class="impact-card">
+      <span class="impact-icon">♻️</span>
+      <h3>Déchets électroniques</h3>
+      <div class="impact-val">3–5× plus vite</div>
+      <p>Les serveurs IA ont une durée de vie <strong>3 à 5 fois plus courte</strong> que les serveurs classiques <sup class="ref">[S2]</sup>. La course aux nouveaux GPU (H100 → H200 → B100) crée une obsolescence forcée et une montagne de déchets électroniques difficilement recyclables.</p>
+      <div style="margin-top:12px;"><span class="tag red">E-waste</span><span class="tag amber">Obsolescence</span></div>
+    </div>
+
+    <div class="impact-card">
+      <span class="impact-icon">🫁</span>
+      <h3>Particules fines &amp; santé</h3>
+      <div class="impact-val">18,5 %</div>
+      <p>Des impacts totaux de l'IA liés aux émissions de particules fines <sup class="ref">[S2]</sup> — directement mortelles pour l'être humain. Proviennent notamment de la production d'énergie dans des régions encore très dépendantes du charbon pour alimenter les data centers.</p>
+      <div style="margin-top:12px;"><span class="tag red">PM2.5</span><span class="tag amber">Santé publique</span></div>
+    </div>
+
+    <div class="impact-card">
+      <span class="impact-icon">🌊</span>
+      <h3>Eutrophisation des eaux</h3>
+      <div class="impact-val">18,3 %</div>
+      <p>Des impacts totaux liés à la pollution des eaux douces par les effluents des data centers et des fonderies de semi-conducteurs <sup class="ref">[S2]</sup>. Phénomène sous-documenté mais croissant avec l'expansion des infrastructures IA dans des zones sans traitement adéquat.</p>
+      <div style="margin-top:12px;"><span class="tag blue">Eau douce</span><span class="tag red">Fonderies</span></div>
+    </div>
+  </div>
+</section>
+<div class="section-divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════ SECTION 7 : SOLUTIONS -->
+<section class="page-section" id="solutions">
+  <div class="section-header">
+    <div class="badge-label badge-green">Section 7</div>
+    <h2 class="section-title">Solutions pour une IA sobre et durable</h2>
+    <p class="section-sub">4 leviers complémentaires pour réduire l'impact de l'IA sans sacrifier ses bénéfices. Une combinaison de technologie, infrastructure, règlementation et sobriété des usages est nécessaire.</p>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-item open">
+      <div class="acc-head" onclick="toggleAcc(this)">
+        <span>🧮 Green AI — Optimisation algorithmique et architecturale</span>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="acc-body">
+        <p>La voie la plus prometteuse à court terme : <strong>faire plus avec moins</strong> en repensant l'architecture des modèles.</p>
+        <ul class="tip-list">
+          <li><strong>Architecture MoE (Mélange d'experts)</strong> — utilisée par Mistral et DeepSeek : le modèle n'active que les neurones nécessaires à chaque requête, réduisant drastiquement la consommation. <sup class="ref">[S6]</sup></li>
+          <li><strong>Pruning, distillation, quantification</strong> — réduire la taille des modèles sans perte de performance. Peut baisser les émissions jusqu'à 88 fois selon les cas. <sup class="ref">[S6]</sup></li>
+          <li><strong>Modèles spécialisés et locaux</strong> — préférer un modèle petit et spécialisé (ex: o3-mini) à un LLM généraliste surdimensionné. Les modèles "on-device" évitent les transferts de données vers les serveurs. <sup class="ref">[S6]</sup></li>
+          <li><strong>TPU vs GPU</strong> — les puces dédiées au machine learning (Tensor Processing Units) sont significativement plus efficaces énergétiquement que les GPU généralistes. <sup class="ref">[S6]</sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">
+        <span>🌿 Infrastructures vertes — Data centers décarbonés</span>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="acc-body">
+        <p>La transition vers des infrastructures durables est en cours, portée par les grands acteurs tech.</p>
+        <ul class="tip-list">
+          <li><strong>Power Purchase Agreements (PPA)</strong> — contrats d'achat d'énergie renouvelable à long terme conclus par Microsoft, Google, AWS pour s'approvisionner en solaire/éolien/nucléaire. <sup class="ref">[S6]</sup></li>
+          <li><strong>Localisation stratégique</strong> — installer les data centers dans des pays au mix électrique décarboné (France, pays nordiques) réduit l'empreinte carbone de l'inférence de 50 à 80%. <sup class="ref">[S6]</sup></li>
+          <li><strong>Récupération de chaleur fatale</strong> — les serveurs produisent de la chaleur réutilisable pour chauffer des bâtiments voisins ou des réseaux urbains. En France, les Certificats d'Économies d'Énergie (CEE) subventionnent cette pratique. <sup class="ref">[S6]</sup></li>
+          <li><strong>Hourly matching</strong> — s'assurer que chaque kWh consommé correspond heure par heure à une production propre, plutôt que des compensations annuelles. <sup class="ref">[S6]</sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">
+        <span>⚖️ Réglementation et transparence</span>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="acc-body">
+        <p>Un encadrement réglementaire progressif oblige le secteur à plus de transparence.</p>
+        <ul class="tip-list">
+          <li><strong>Référentiel IA frugale (France)</strong> — co-construit par le CGDD et l'Afnor, il propose des méthodologies d'écoconception et sert de critère pour les appels à projets France 2030. <sup class="ref">[S6]</sup></li>
+          <li><strong>CSRD + Directive efficacité énergétique (UE)</strong> — les data centers doivent désormais déclarer publiquement leur PUE (Power Usage Effectiveness) et WUE (Water Usage Effectiveness). <sup class="ref">[S6]</sup></li>
+          <li><strong>Éco-étiquettes pour les modèles IA</strong> — sur le modèle d'EnergyStar : afficher le score énergétique des modèles pour orienter les choix des développeurs et entreprises. <sup class="ref">[S6]</sup></li>
+          <li><strong>Exonérations conditionnelles (France)</strong> — la TICFE (taxe énergie) peut être réduite si le data center obtient l'ISO 50001 et valorise sa chaleur. <sup class="ref">[S6]</sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)">
+        <span>🧠 Sobriété numérique — Bonnes pratiques utilisateurs</span>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="acc-body">
+        <p>L'essentiel se joue aussi à l'échelle individuelle et des équipes. Contrer l'"effet rebond" nécessite une vraie culture de sobriété IA.</p>
+        <ul class="tip-list">
+          <li><strong>Choisir le modèle adapté à la tâche</strong> — n'utiliser GPT-4 ou Claude Opus que lorsque la complexité le justifie. Pour 80% des tâches courantes, un modèle plus léger suffit et consomme 5 à 10× moins. <sup class="ref">[S6]</sup></li>
+          <li><strong>Grouper ses requêtes</strong> — formuler une question complète et précise plutôt que 5 allers-retours. Chaque requête inutile a un coût. <sup class="ref">[S6]</sup></li>
+          <li><strong>Éviter la génération de médias lourds par défaut</strong> — ne générer des images ou vidéos IA que quand cela apporte une valeur réelle (image ≈ 60× texte, vidéo ≈ 383× texte). <sup class="ref">[S5]</sup></li>
+          <li><strong>Sobriété par conception (IA for Good)</strong> — intégrer dès la conception des projets IA un bilan carbone prévisionnel et des critères d'efficacité énergétique, pas seulement des critères de performance. <sup class="ref">[S6]</sup></li>
+          <li><strong>Fermer les onglets inactifs</strong> — les assistants IA connectés en continu (Copilot, ChatGPT) consomment même lorsqu'on ne les utilise pas activement. <sup class="ref">[S6]</sup></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert info" style="margin-top:28px;">
+    <div class="alert-icon">🎯</div>
+    <p><strong>Règle des 3 questions avant une requête IA lourde :</strong><br>1. Est-ce qu'un modèle plus léger ferait le travail ? 2. Ai-je regroupé toutes mes questions en une seule ? 3. Est-ce que je génère du contenu multimédia par habitude ou par vraie nécessité ?</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ SOURCES -->
+<div class="sources-wrap" id="sources-list">
+  <div class="sources-inner">
+    <h2>Sources &amp; références</h2>
+    <p class="s-sub">Toutes les données présentées dans ce module sont issues des sources suivantes, consultables en ligne.</p>
+    <div class="sources-grid">
+      <div class="src-item">
+        <span class="src-num">[S1] TechInsights</span>
+        <div class="src-title">AI GPU Growth Directly Impacts Carbon Emission Growth through 2030</div>
+        <a href="https://www.techinsights.com/blog/ai-gpu-growth-directly-impacts-carbon-emission-growth-through-2030" target="_blank">techinsights.com ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S2] Green IT</span>
+        <div class="src-title">Quels sont les impacts environnementaux et sanitaires de l'IA ?</div>
+        <a href="https://www.greenit.fr/2025/10/21/quels-sont-les-impacts-environnementaux-et-sanitaires-de-lia/" target="_blank">greenit.fr ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S3] AIE / IEA</span>
+        <div class="src-title">Electricity 2024 — Data Centers and AI (rapport complet)</div>
+        <a href="https://www.iea.org/reports/electricity-2024" target="_blank">iea.org/reports/electricity-2024 ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S4] Greenly</span>
+        <div class="src-title">L'impact environnemental de l'intelligence artificielle</div>
+        <a href="https://greenly.earth/leaf-media/data-stories/l-impact-environnemental-de-l-intelligence-artificielle" target="_blank">greenly.earth ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S5] France Culture / Epoch AI</span>
+        <div class="src-title">Le coût environnemental de l'IA est colossal et sous-évalué</div>
+        <a href="https://www.radiofrance.fr/franceculture/podcasts/le-journal-de-l-eco/le-cout-environnemental-de-l-ia-est-colossal-et-sous-evalue-3781962" target="_blank">radiofrance.fr ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S6] Ministère Transition Écologique</span>
+        <div class="src-title">Pour une intelligence artificielle durable</div>
+        <a href="https://www.ecologie.gouv.fr/actualites/intelligence-artificielle-durable" target="_blank">ecologie.gouv.fr ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S7] TechTarget</span>
+        <div class="src-title">AI Inference vs Training: Key Differences and Tradeoffs</div>
+        <a href="https://www.techtarget.com/searchenterpriseai/tip/AI-inference-vs-training-Key-differences-and-tradeoffs" target="_blank">techtarget.com ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S8] GetTectonic</span>
+        <div class="src-title">AI Inference vs. Training — Energy &amp; Cost Analysis</div>
+        <a href="https://gettectonic.com/ai-inference-vs-training/" target="_blank">gettectonic.com ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S9] Info HighTech</span>
+        <div class="src-title">Combien d'énergie ChatGPT utilise-t-il ? Une requête utilise 10× moins d'énergie que prévu</div>
+        <a href="https://www.infohightech.com/combien-denergie-chatgpt-utilise-t-il/" target="_blank">infohightech.com ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S10] Allnews</span>
+        <div class="src-title">L'IA au cœur de la transition énergétique durable</div>
+        <a href="https://www.allnews.ch/content/points-de-vue/l%E2%80%99ia-au-c%C5%93ur-de-la-transition-%C3%A9nerg%C3%A9tique-durable" target="_blank">allnews.ch ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S11] EnergyAndAI.pdf (IEA Special Report)</span>
+        <div class="src-title">Energy and Artificial Intelligence — IEA Special Report 2024</div>
+        <a href="https://www.iea.org/reports/energy-and-ai" target="_blank">iea.org/reports/energy-and-ai ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S12] IT Social</span>
+        <div class="src-title">L'empreinte carbone de l'entraînement des modèles IA s'accroît</div>
+        <a href="https://itsocial.fr/intelligence-artificielle/intelligence-artificielle-articles/lempreinte-carbone-de-lentrainement-des-modeles-des-ia-saccroit-de-plus-en-plus/" target="_blank">itsocial.fr ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S13] Praxedo</span>
+        <div class="src-title">Smart Grid : les réseaux de distribution d'énergie intelligents</div>
+        <a href="https://www.praxedo.fr/notre-blog-specialise/avec-le-smart-grid-les-reseaux-de-distribution-denergie-deviennent-intelligents/" target="_blank">praxedo.fr ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S14] Le Monde de l'Énergie</span>
+        <div class="src-title">L'IA et le machine learning permettent de réduire le gaspillage énergétique</div>
+        <a href="https://www.lemondedelenergie.com/ia-machine-learning-permettent-aux-entreprises-reduire-gaspillage-energetique/2023/06/20/" target="_blank">lemondedelenergie.com ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S15] Shaolei Ren — UC Riverside (2023)</span>
+        <div class="src-title">Making AI Less "Thirsty" — Consommation d'eau des modèles IA (arXiv:2304.03271)</div>
+        <a href="https://arxiv.org/abs/2304.03271" target="_blank">arxiv.org/abs/2304.03271 ↗</a>
+      </div>
+      <div class="src-item">
+        <span class="src-num">[S16] Epoch AI (février 2025)</span>
+        <div class="src-title">How Much Energy Does ChatGPT Use? — Revised estimate 0,3 Wh/query</div>
+        <a href="https://epoch.ai/gradient-updates/how-much-energy-does-chatgpt-use" target="_blank">epoch.ai ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>IA & Énergie — Module de Formation</strong><br>
+  Contenu basé sur le notebook NotebookLM "Energy and AI: Global Trends and Sector Impacts" · 31 sources analysées<br>
+  Données : IEA, TechInsights, Green IT, Epoch AI, Ministère Transition Écologique · Avril 2026
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════ JAVASCRIPT -->
+<script>
+// NAV ACTIVE ON SCROLL
+const sections = ['paradoxe','usage','training','projections','benefices','au-dela','solutions'];
+const tabs = document.querySelectorAll('.nav-tab');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= 80) current = id;
+  });
+  tabs.forEach((tab, i) => {
+    tab.classList.toggle('active', sections[i] === current || (current === '' && i === 0));
+  });
+});
+
+function handleNav(e, id) {
+  e.preventDefault();
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  tabs.forEach(t => t.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+}
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+// SECTOR TABS
+function setSector(btn, id) {
+  document.querySelectorAll('.sector-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.sector-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ACCORDION
+function toggleAcc(header) {
+  const item = header.closest('.acc-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.acc-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// CALCULATOR DATA
+const calcData = {
+  text: {
+    energy: '0,3 Wh',
+    label: 'Énergie pour 1 requête texte standard (GPT-4o)',
+    source: 'Epoch AI, février 2025 [S5]',
+    comps: [
+      { icon: '🔍', val: '1', lbl: 'Équiv. recherche Google' },
+      { icon: '💡', val: '1,8 min', lbl: 'Ampoule LED 10W' },
+      { icon: '☕', val: '1 / 75', lbl: "D'une tasse de thé" },
+      { icon: '📺', val: '< 0,1 %', lbl: "D'1h streaming HD" },
+    ]
+  },
+  reason: {
+    energy: '0,75 Wh',
+    label: 'Énergie pour 1 requête de raisonnement complexe (o1/o3)',
+    source: 'Epoch AI 2025 — modèles de raisonnement [S5]',
+    comps: [
+      { icon: '💬', val: '2,5×', lbl: 'Plus qu\'une requête texte simple' },
+      { icon: '💡', val: '4,5 min', lbl: 'Ampoule LED 10W' },
+      { icon: '☕', val: '1 / 30', lbl: "D'une tasse de thé" },
+      { icon: '📱', val: '0,05 %', lbl: 'Recharge smartphone' },
+    ]
+  },
+  image: {
+    energy: '2,9 Wh',
+    label: 'Énergie pour 1 image générée par IA',
+    source: 'Green IT 2024 — analyse cycle de vie [S2]',
+    comps: [
+      { icon: '💬', val: '× 10', lbl: 'Requêtes texte équivalentes' },
+      { icon: '📱', val: '≈ 20 %', lbl: 'Recharge smartphone' },
+      { icon: '💡', val: '17 min', lbl: 'Ampoule LED 10W' },
+      { icon: '☕', val: '1 / 8', lbl: "D'une tasse de thé" },
+    ]
+  },
+  video: {
+    energy: '115 Wh',
+    label: 'Énergie pour 1 vidéo de 6 secondes générée par IA',
+    source: 'Green IT 2024 [S2] — cas Sora (OpenAI)',
+    comps: [
+      { icon: '💻', val: '2×', lbl: 'Recharge ordinateur portable' },
+      { icon: '💬', val: '383×', lbl: 'Requêtes texte équivalentes' },
+      { icon: '📺', val: '≈ 30 min', lbl: 'Streaming HD équivalent' },
+      { icon: '☕', val: '5', lbl: 'Tasses de thé équivalentes' },
+    ]
+  },
+  email: {
+    energy: '0,3 Wh + ~15 ml eau',
+    label: 'Énergie + eau pour 1 email / requête individuelle (GPT-4) — Shaolei Ren, UC Riverside 2023',
+    source: '⚠️ Attention : la figure "500 ml/email" est une confusion fréquente. 500 ml = une session de 20-50 requêtes, soit ~10-25 ml par requête individuelle. [S15]',
+    comps: [
+      { icon: '💧', val: '10–25 ml', lbl: "Eau par requête individuelle" },
+      { icon: '🫗', val: '500 ml', lbl: "Eau pour 20-50 requêtes (session)" },
+      { icon: '🌍', val: '1 200 Mds L', lbl: 'Consommation mondiale data centers 2030' },
+      { icon: '⚡', val: '0,3 Wh', lbl: 'Énergie électrique (inchangé)' },
+    ]
+  }
+};
+
+function setCalc(btn, type) {
+  document.querySelectorAll('.calc-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const d = calcData[type];
+  document.getElementById('calcEnergy').textContent = d.energy;
+  document.getElementById('calcLabel').textContent = d.label;
+  document.getElementById('calcSource').innerHTML = 'Source : ' + d.source;
+  const compsEl = document.getElementById('calcComps');
+  compsEl.innerHTML = d.comps.map(c =>
+    `<div class="calc-comp">
+      <span class="calc-comp-icon">${c.icon}</span>
+      <div class="calc-comp-val">${c.val}</div>
+      <div class="calc-comp-lbl">${c.lbl}</div>
+    </div>`
+  ).join('');
+}
+
+// ANIMATE BARS ON SCROLL
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.bar-fill').forEach(bar => {
+        bar.style.animationPlayState = 'running';
+      });
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.bar-chart').forEach(chart => {
+  chart.querySelectorAll('.bar-fill').forEach(bar => {
+    bar.style.animationPlayState = 'paused';
+  });
+  observer.observe(chart);
+});
+
+// MAKE ALL sup.ref CLICKABLE — scroll to sources
+document.querySelectorAll('sup.ref').forEach(sup => {
+  if (!sup.querySelector('a')) {
+    const text = sup.textContent;
+    const a = document.createElement('a');
+    a.href = '#sources-list';
+    a.textContent = text;
+    a.style.cssText = 'color:var(--primary);text-decoration:none;border-bottom:1px dotted var(--primary);';
+    a.onmouseover = () => a.style.background = '#eff6ff';
+    a.onmouseout = () => a.style.background = '';
+    sup.textContent = '';
+    sup.appendChild(a);
+  }
+});
+</script>
+</body>
+</html>
